@@ -15,10 +15,9 @@ const initState = {
             checked: false
         }
     ],
-    work: [],
+    search: '',
     checkedAll: false,
-    deleteButtonDisable: true,
-    search: []
+    deleteButtonDisable: true
 };
 
 const taskList = (state = initState, {type, payload}) => {
@@ -34,8 +33,6 @@ const taskList = (state = initState, {type, payload}) => {
       checked: false
     });
 
-    tasks.work = tasks.tasks;
-
     return tasks;
   };
 
@@ -44,7 +41,9 @@ const taskList = (state = initState, {type, payload}) => {
 
     const newState = {
       tasks: [],
-      checkedAll: false
+      search: '',
+      checkedAll: false,
+      deleteButtonDisable: true
     };
 
     tasks.tasks.forEach((el) => {
@@ -52,8 +51,6 @@ const taskList = (state = initState, {type, payload}) => {
         newState.tasks.push(el);
       }
     });
-
-    tasks.work = tasks.tasks;
 
     return newState;
   };
@@ -76,8 +73,6 @@ const taskList = (state = initState, {type, payload}) => {
       });
       tasks.deleteButtonDisable = false;
     }
-
-    tasks.work = tasks.tasks;
 
     return tasks;
   };
@@ -110,8 +105,6 @@ const taskList = (state = initState, {type, payload}) => {
       }
     }
 
-    tasks.work = tasks.tasks;
-
     return tasks;
   };
 
@@ -120,14 +113,6 @@ const taskList = (state = initState, {type, payload}) => {
 
     tasks.search = text;
 
-    if (text.length === 0) {
-      tasks.work = tasks.tasks;
-      return tasks;
-    }
-
-    tasks.work = tasks.tasks.filter((el) => {
-      return el.title.toLowerCase().indexOf(text.toLowerCase()) > -1;
-    });
     return tasks;
   };
 
@@ -148,9 +133,7 @@ const taskList = (state = initState, {type, payload}) => {
       return searchTask(payload);
 
     default:
-      const tasks = JSON.parse(JSON.stringify(state));
-      tasks.work = tasks.tasks;
-      return tasks;
+      return state;
   }
 };
 

@@ -24,6 +24,25 @@ const TaskBlock = ({ taskList, openAddTaskDialog, openDeleteTaskDialog, toogleCk
     toogleCkeckAllTask();
   };
 
+  const renderRow = () => {
+    if (taskList.search.length) {
+      const renderTask = taskList.tasks.filter((el) => {
+        return el.title.toLowerCase().indexOf(taskList.search.toLowerCase()) > -1;
+      });
+      return renderTask.map((el) => {
+        return (
+          <TaskItem item={el} key={el.id}></TaskItem>
+        );
+      });
+    } else {
+      return taskList.tasks.map((el) => {
+        return (
+          <TaskItem item={el} key={el.id}></TaskItem>
+        );
+      });
+    }
+  };
+
   return (
     <div>
       <header>
@@ -46,11 +65,7 @@ const TaskBlock = ({ taskList, openAddTaskDialog, openDeleteTaskDialog, toogleCk
         </thead>
 
         <tbody>
-          {
-            taskList.work.map((el) => {
-              return <TaskItem item={el} key={el.id}></TaskItem>
-            })
-          }
+          {renderRow()}
         </tbody>
       </Table>
     </div>
