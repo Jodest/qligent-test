@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import { storeAddTaskDialog } from '../hoc';
 
 const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog }) => {
@@ -23,29 +29,25 @@ const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog }) => {
       'Нижний Новгород'
   ];
 
-  if (addTaskDialog.show) {
-    return (
-      <div>
-          <div className="title">Добавление мероприятия</div>
-          <div className="form">
-            <input type="text" value={title} placeholder="Название" onChange={(event) => setTitle(event.target.value)} />
-            <input type="date" value={date} placeholder="Дата" onChange={(event) => setDate(event.target.value)} />
-            {/* <input type="select" value={place} placeholder="Город" onChange={(event) => setPlace(event.target.value)} /> */}
-            <select value={place} onChange={(event) => setPlace(event.target.value)}>
-            {
-              cities.map((el, ind) => <option key={ind}>{el}</option>)
-            }
-            </select>
-          </div>
-          <div className="buttons">
-            <button className="cancel" onClick={handleCloseAddTaskDialog}>Отмена</button>
-            <button className="add" onClick={handleAddTask} disabled={!title || !date || !place}>Добавить</button>
-          </div>
+  return (
+    <Dialog open={addTaskDialog.show}>
+      <div className="title">Добавление мероприятия</div>
+      <div className="form">
+        <Input type="text" value={title} placeholder="Название" onChange={(event) => setTitle(event.target.value)} />
+        <Input type="date" value={date} placeholder="Дата" onChange={(event) => setDate(event.target.value)} />
+        {/* <input type="select" value={place} placeholder="Город" onChange={(event) => setPlace(event.target.value)} /> */}
+        <Select value={place} displayEmpty onChange={(event) => setPlace(event.target.value)}>
+        {
+          cities.map((el, ind) => <MenuItem value={el} key={ind}>{el}</MenuItem>)
+        }
+        </Select>
       </div>
-    );
-  } else {
-    return null;
-  }
+      <div className="buttons">
+        <Button className="cancel" onClick={handleCloseAddTaskDialog}>Отмена</Button>
+        <Button className="add" onClick={handleAddTask} disabled={!title || !date || !place}>Добавить</Button>
+      </div>
+    </Dialog>
+  );
 };
 
 export default storeAddTaskDialog(AddTaskDialog);

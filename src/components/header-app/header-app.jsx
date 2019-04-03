@@ -1,8 +1,12 @@
 import React from 'react';
 
+import AppBar from '@material-ui/core/AppBar';
+
 const Header = () => {
   return (
-    <div>Header</div>
+    <AppBar position="static">
+      <h2>Мероприятия</h2>
+    </AppBar>
   );
 };
 

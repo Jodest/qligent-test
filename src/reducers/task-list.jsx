@@ -15,8 +15,10 @@ const initState = {
             checked: false
         }
     ],
+    work: [],
     checkedAll: false,
-    deleteButtonDisable: true
+    deleteButtonDisable: true,
+    search: []
 };
 
 const taskList = (state = initState, {type, payload}) => {
@@ -31,6 +33,8 @@ const taskList = (state = initState, {type, payload}) => {
       place,
       checked: false
     });
+
+    tasks.work = tasks.tasks;
 
     return tasks;
   };
@@ -48,6 +52,8 @@ const taskList = (state = initState, {type, payload}) => {
         newState.tasks.push(el);
       }
     });
+
+    tasks.work = tasks.tasks;
 
     return newState;
   };
@@ -70,6 +76,8 @@ const taskList = (state = initState, {type, payload}) => {
       });
       tasks.deleteButtonDisable = false;
     }
+
+    tasks.work = tasks.tasks;
 
     return tasks;
   };
@@ -102,6 +110,24 @@ const taskList = (state = initState, {type, payload}) => {
       }
     }
 
+    tasks.work = tasks.tasks;
+
+    return tasks;
+  };
+
+  const searchTask = (text) => {
+    const tasks = JSON.parse(JSON.stringify(state));
+
+    tasks.search = text;
+
+    if (text.length === 0) {
+      tasks.work = tasks.tasks;
+      return tasks;
+    }
+
+    tasks.work = tasks.tasks.filter((el) => {
+      return el.title.toLowerCase().indexOf(text.toLowerCase()) > -1;
+    });
     return tasks;
   };
 
@@ -118,8 +144,13 @@ const taskList = (state = initState, {type, payload}) => {
     case 'TOOGLE_CKECK_TASK':
       return checkTask(payload);
 
+    case 'SEARCH_TASK':
+      return searchTask(payload);
+
     default:
-      return state;
+      const tasks = JSON.parse(JSON.stringify(state));
+      tasks.work = tasks.tasks;
+      return tasks;
   }
 };
 

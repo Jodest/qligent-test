@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+
 import { deleteTask, closeDeleteTaskDialog } from '../../actions';
 
 const DeleteTaskDialog = ({ deleteTaskDialog, deleteTask, closeDeleteTaskDialog }) => {
@@ -15,18 +18,13 @@ const DeleteTaskDialog = ({ deleteTaskDialog, deleteTask, closeDeleteTaskDialog 
     closeDeleteTaskDialog();
   };
 
-  if (deleteTaskDialog.show) {
     return (
-      <div>
+      <Dialog open={deleteTaskDialog.show}>
         <h1>Подтвердите удаление</h1>
-        <button onClick={cancel}>Отмена</button>
-        <button onClick={confirmDelete}>Удалить</button>
-      </div>
+        <Button onClick={cancel}>Отмена</Button>
+        <Button onClick={confirmDelete}>Удалить</Button>
+      </Dialog>
     );
-  } else {
-    return null;
-  }
-
 };
 
 const mapStateToProps = ({ deleteTaskDialog }) => ({

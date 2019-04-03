@@ -2,15 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import Input from '@material-ui/core/Input';
+
 import { searchTask } from '../../actions';
 
 const Search = ({ taskList, searchTask }) => {
-  const handleSearchTask = () => {
-    searchTask();
+  const handleSearchTask = (event) => {
+    searchTask(event.target.value);
   };
 
   return (
-    <input type="text" placeholder="Поиск" onChange={handleSearchTask} />
+    <Input type="text" placeholder="Поиск" value={taskList.search} onChange={handleSearchTask} />
   );
 };
 
