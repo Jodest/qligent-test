@@ -1,3 +1,3 @@
-import DeleteDialog from './delete-task-dialog';
+import DeleteTaskDialog from './delete-task-dialog';
 
-export default DeleteDialog;
+export default DeleteTaskDialog;

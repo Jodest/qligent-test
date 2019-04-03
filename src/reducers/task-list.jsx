@@ -1,3 +1,5 @@
+import { addTask } from "../actions";
+
 const initState = {
     tasks: [
         {
@@ -14,20 +16,110 @@ const initState = {
             place: 'Москва',
             checked: false
         }
-    ]
+    ],
+    checkedAll: false,
+    deleteButtonDisable: true
 };
 
 const taskList = (state = initState, {type, payload}) => {
 
+  const addTask = ({ title, date, place }) => {
+    const tasks = JSON.parse(JSON.stringify(state));
+
+    tasks.tasks.push({
+      id: tasks.tasks.length,
+      title,
+      date,
+      place,
+      checked: false
+    });
+
+    return tasks;
+  };
+
+  const deleteTask = () => {
+    const tasks = JSON.parse(JSON.stringify(state));
+
+    const newState = {
+      tasks: [],
+      checkedAll: false
+    };
+
+    tasks.tasks.forEach((el) => {
+      if (!el.checked) {
+        newState.tasks.push(el);
+      }
+    });
+
+    return newState;
+  };
+
+  const checkAllTask = () => {
+    const tasks = JSON.parse(JSON.stringify(state));
+
+    if (tasks.checkedAll) {
+      tasks.checkedAll = false;
+
+      tasks.tasks.forEach((el) => {
+          el.checked = false;
+      });
+      tasks.deleteButtonDisable = true;
+    } else {
+      tasks.checkedAll = true;
+
+      tasks.tasks.forEach((el) => {
+          el.checked = true;
+      });
+      tasks.deleteButtonDisable = false;
+    }
+
+    return tasks;
+  };
+
+  const checkTask = (id) => {
+    const tasks = JSON.parse(JSON.stringify(state));
+
+    tasks.tasks.forEach((el) => {
+      if (el.id === id) {
+        el.checked = !el.checked;
+      }
+    });
+
+    const someChecked = tasks.tasks.every((el) => {
+      return el.checked;
+    });
+
+    if (someChecked) {
+      tasks.deleteButtonDisable = true;
+    } else {
+      tasks.deleteButtonDisable = false;
+    }
+
+    const everyChecked = tasks.tasks.every((el) => {
+      return el.checked;
+    });
+
+    if (everyChecked) {
+      tasks.checkedAll = true;
+    } else {
+      tasks.checkedAll = false;
+    }
+
+    return tasks;
+  };
+
   switch (type) {
     case 'ADD_TASK':
-      return;
+      return addTask(payload);
 
-    case 'REMOVE_TASK':
-      return;
+    case 'DELETE_TASK':
+      return deleteTask();
 
-    case 'EDIT':
-      return;
+    case 'TOOGLE_CKECK_ALL_TASK':
+      return checkAllTask();
+
+    case 'TOOGLE_CKECK_TASK':
+      return checkTask(payload);
 
     default:
       return state;

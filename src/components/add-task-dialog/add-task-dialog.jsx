@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-// import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
 
 import { storeAddTaskDialog } from '../hoc';
-import { compose } from '../../utils';
-// import { closeAddTaskDialog, addTask } from '../../actions';
 
-const AddTaskDialog = (props) => {
-// const AddTaskDialog = ({ addTaskDialog: {title, date, place}, closeAddTaskDialog, addTask }) => {
-  // const handleCloseAddTaskDialog = () => {
-  //   closeAddTaskDialog();
-  // };
-  // const handleAddTask = () => {
-  //   addTask();
-  //   closeAddTaskDialog();
-  // };
+const AddTaskDialog = ({addTask, closeAddTaskDialog}) => {
+  const handleCloseAddTaskDialog = () => {
+    closeAddTaskDialog();
+  };
+  const handleAddTask = () => {
+    addTask({ title, date, place });
+    closeAddTaskDialog();
+  };
+
+  // console.log(addTask, closeAddTaskDialog);
 
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
@@ -40,13 +37,11 @@ const AddTaskDialog = (props) => {
           </select>
         </div>
         <div className="buttons">
-          {/* <button className="cancel" onClick={handleCloseAddTaskDialog}>Отмена</button> */}
-          {/* <button className="add" onClick={handleAddTask}>Добавить</button> */}
+          <button className="cancel" onClick={handleCloseAddTaskDialog}>Отмена</button>
+          <button className="add" onClick={handleAddTask}>Добавить</button>
         </div>
     </div>
   );
 };
 
-export default compose(
-  storeAddTaskDialog()
-)(AddTaskDialog);
+export default storeAddTaskDialog(AddTaskDialog);

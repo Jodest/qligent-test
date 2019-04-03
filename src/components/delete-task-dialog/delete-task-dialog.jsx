@@ -1,27 +1,32 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-// import { deletePost, hideModal } from '../actions'
+import { deleteTask, closeDeleteTaskDialog } from '../../actions';
 
-const DeletePostModal = ({ post, dispatch }) => {
+const DeleteTaskDialog = ({ deleteTask, closeDeleteTaskDialog }) => {
+
+  const confirmDelete = () => {
+    deleteTask();
+    closeDeleteTaskDialog();
+  };
+
+  const cancel = () => {
+    closeDeleteTaskDialog();
+  };
+
   return (
     <div>
-      {/* <p>Delete post {post.name}?</p>
-      <button onClick={() => {
-        dispatch(deletePost(post.id)).then(() => {
-          dispatch(hideModal())
-        })
-      }}>
-        Yes
-      </button>
-      <button onClick={() => dispatch(hideModal())}>
-        Nope
-      </button> */}
+      <h1>Подтвердите удаление</h1>
+      <button onClick={cancel}>Отмена</button>
+      <button onClick={confirmDelete}>Удалить</button>
     </div>
-  )
+  );
 };
 
-const mapStateToProps = () => ({
-});
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  deleteTask,
+  closeDeleteTaskDialog
+}, dispatch);
 
-export default connect(mapStateToProps, null)(DeletePostModal)
+export default connect(null, mapDispatchToProps)(DeleteTaskDialog)

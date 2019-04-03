@@ -4,36 +4,28 @@ import {bindActionCreators} from 'redux';
 
 import Search from '../search';
 
-import { openAddTaskDialog } from '../../actions';
+import { openAddTaskDialog, openDeleteTaskDialog, toogleCkeckAllTask } from '../../actions';
 
-const TaskBlock = ({ taskList, openAddTaskDialog }) => {
-  console.log(taskList, openAddTaskDialog);
+import TaskItem from '../task-item';
+
+const TaskBlock = ({ taskList, openAddTaskDialog, openDeleteTaskDialog, toogleCkeckAllTask }) => {
+  console.log('raz', taskList);
   const handleOpenAddTaskDialog = () => {
     openAddTaskDialog();
   };
-  const renderRow = (task) => {
-    const { id, title, date, place } = task;
-
-    console.log(id, title, date, place);
-
-    return (
-      <tr key={id}>
-        <td>
-          <input type="checkbox" />
-        </td>
-        <td>{title}</td>
-        <td>{new Date(date).toDateString()}</td>
-        <td>{place}</td>
-      </tr>
-    );
-  }
+  const handleOpenDeleteTaskDialog = () => {
+    openDeleteTaskDialog();
+  };
+  const handleToogleCkeckAllTask = () => {
+    toogleCkeckAllTask();
+  };
 
   return (
     <div>
       <header>
         <div className="buttons">
           <div onClick={handleOpenAddTaskDialog}>+</div>
-          <div>-</div>
+          <div onClick={handleOpenDeleteTaskDialog} disabled={taskList.deleteButtonDisable}>-</div>
         </div>
         <Search></Search>
       </header>
@@ -41,7 +33,7 @@ const TaskBlock = ({ taskList, openAddTaskDialog }) => {
         <thead>
           <tr>
             <th>
-              <input type="checkbox"></input>
+              <input type="checkbox" onChange={handleToogleCkeckAllTask} checked={taskList.checkedAll} />
             </th>
             <th>Название</th>
             <th>Дата</th>
@@ -50,7 +42,11 @@ const TaskBlock = ({ taskList, openAddTaskDialog }) => {
         </thead>
 
         <tbody>
-          { taskList.tasks.map(renderRow) }
+          {
+            taskList.tasks.map((el) => {
+              return <TaskItem item={el} key={el.id}></TaskItem>
+            })
+          }
         </tbody>
       </table>
     </div>
@@ -62,7 +58,9 @@ const mapStateToProps = ({ taskList }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  openAddTaskDialog
+  openAddTaskDialog,
+  openDeleteTaskDialog,
+  toogleCkeckAllTask
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskBlock);
