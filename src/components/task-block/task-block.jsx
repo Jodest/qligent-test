@@ -24,8 +24,8 @@ const TaskBlock = ({ taskList, openAddTaskDialog, openDeleteTaskDialog, toogleCk
     <div>
       <header>
         <div className="buttons">
-          <div onClick={handleOpenAddTaskDialog}>+</div>
-          <div onClick={handleOpenDeleteTaskDialog} disabled={taskList.deleteButtonDisable}>-</div>
+          <button onClick={handleOpenAddTaskDialog}>+</button>
+          <button onClick={handleOpenDeleteTaskDialog} disabled={taskList.deleteButtonDisable}>-</button>
         </div>
         <Search></Search>
       </header>

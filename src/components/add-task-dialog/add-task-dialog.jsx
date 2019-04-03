@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { storeAddTaskDialog } from '../hoc';
 
-const AddTaskDialog = ({addTask, closeAddTaskDialog}) => {
+const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog }) => {
   const handleCloseAddTaskDialog = () => {
     closeAddTaskDialog();
   };
@@ -23,25 +23,29 @@ const AddTaskDialog = ({addTask, closeAddTaskDialog}) => {
       'Нижний Новгород'
   ];
 
-  return (
-    <div>
-        <div className="title">Добавление мероприятия</div>
-        <div className="form">
-          <input type="text" value={title} placeholder="Название" onChange={(event) => setTitle(event.target.value)} />
-          <input type="date" value={date} placeholder="Дата" onChange={(event) => setDate(event.target.value)} />
-          {/* <input type="select" value={place} placeholder="Город" onChange={(event) => setPlace(event.target.value)} /> */}
-          <select value={place} onChange={(event) => setPlace(event.target.value)}>
-          {
-            cities.map((el, ind) => <option key={ind}>{el}</option>)
-          }
-          </select>
-        </div>
-        <div className="buttons">
-          <button className="cancel" onClick={handleCloseAddTaskDialog}>Отмена</button>
-          <button className="add" onClick={handleAddTask}>Добавить</button>
-        </div>
-    </div>
-  );
+  if (addTaskDialog.show) {
+    return (
+      <div>
+          <div className="title">Добавление мероприятия</div>
+          <div className="form">
+            <input type="text" value={title} placeholder="Название" onChange={(event) => setTitle(event.target.value)} />
+            <input type="date" value={date} placeholder="Дата" onChange={(event) => setDate(event.target.value)} />
+            {/* <input type="select" value={place} placeholder="Город" onChange={(event) => setPlace(event.target.value)} /> */}
+            <select value={place} onChange={(event) => setPlace(event.target.value)}>
+            {
+              cities.map((el, ind) => <option key={ind}>{el}</option>)
+            }
+            </select>
+          </div>
+          <div className="buttons">
+            <button className="cancel" onClick={handleCloseAddTaskDialog}>Отмена</button>
+            <button className="add" onClick={handleAddTask} disabled={!title || !date || !place}>Добавить</button>
+          </div>
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default storeAddTaskDialog(AddTaskDialog);

@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
 import taskList from './task-list';
 import addTaskDialog from './add-task-dialog';

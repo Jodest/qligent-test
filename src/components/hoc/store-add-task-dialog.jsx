@@ -4,11 +4,15 @@ import { bindActionCreators, compose } from 'redux';
 
 import { closeAddTaskDialog, addTask } from '../../actions';
 
-const storeAddTaskDialog = (Wrapped) => ({addTask, closeAddTaskDialog}) => {
-    return (
-        <Wrapped closeAddTaskDialog={closeAddTaskDialog} addTask={addTask} />
-    );
+const storeAddTaskDialog = (Wrapped) => ({ addTaskDialog, addTask, closeAddTaskDialog }) => {
+  return (
+    <Wrapped addTaskDialog={addTaskDialog} closeAddTaskDialog={closeAddTaskDialog} addTask={addTask} />
+  );
 };
+
+const mapStateToProps = ({ addTaskDialog }) => ({
+  addTaskDialog
+});
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   closeAddTaskDialog,
@@ -16,6 +20,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default compose(
-    connect(null, mapDispatchToProps),
-    storeAddTaskDialog
+  connect(mapStateToProps, mapDispatchToProps),
+  storeAddTaskDialog
 );

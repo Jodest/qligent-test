@@ -8,8 +8,8 @@ export const deleteTask = (data) => ({
   payload: data
 });
 
-export const search = (text) => ({
-  type: 'SEARCH',
+export const searchTask = (text) => ({
+  type: 'SEARCH_TASK',
   payload: text
 });
 

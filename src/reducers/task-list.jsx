@@ -1,5 +1,3 @@
-import { addTask } from "../actions";
-
 const initState = {
     tasks: [
         {
@@ -85,24 +83,23 @@ const taskList = (state = initState, {type, payload}) => {
       }
     });
 
-    const someChecked = tasks.tasks.every((el) => {
-      return el.checked;
-    });
-
-    if (someChecked) {
-      tasks.deleteButtonDisable = true;
-    } else {
-      tasks.deleteButtonDisable = false;
-    }
-
     const everyChecked = tasks.tasks.every((el) => {
       return el.checked;
     });
 
     if (everyChecked) {
       tasks.checkedAll = true;
+      tasks.deleteButtonDisable = false;
     } else {
       tasks.checkedAll = false;
+      const someChecked = tasks.tasks.some((el) => {
+        return el.checked;
+      });
+      if (someChecked) {
+        tasks.deleteButtonDisable = false;
+      } else {
+        tasks.deleteButtonDisable = true;
+      }
     }
 
     return tasks;
