@@ -1,20 +1,19 @@
-const deleteTaskDialog = (state, { type }) => {
-  if (state === undefined) {
-    return {
-      show: false
-    };
-  }
+const initState = {
+    show: false
+};
+
+const deleteTaskDialog = (state = initState, { type }) => {
 
   switch (type) {
     case 'OPEN_DELETE_TASK_DIALOG':
       return {
         show: true
-      };
+    };
     case 'CLOSE_DELETE_TASK_DIALOG':
-      return state.deleteTaskDialog;
+      return initState;
 
     default:
-      return state.deleteTaskDialog;
+      return state;
   }
 };
 
