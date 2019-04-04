@@ -1,25 +1,26 @@
-const initState = {
-    show: false,
-    title: '',
-    date: '',
-    place: ''
-};
+const addTaskDialog = (state, { type }) => {
 
-const addTaskDialog = (state = initState, {type, payload}) => {
+  if (state === undefined) {
+    return {
+      show: false,
+      title: '',
+      date: '',
+      place: ''
+    };
+  }
 
   switch (type) {
     case 'OPEN_ADD_TASK_DIALOG':
+    console.log('tut', state)
       return {
+        ...state.addTaskDialog,
         show: true,
-        title: '',
-        date: '',
-        place: ''
     };
     case 'CLOSE_ADD_TASK_DIALOG':
-      return initState;
+      return state.addTaskDialog;
 
     default:
-      return state;
+      return state.addTaskDialog;
   }
 };
 

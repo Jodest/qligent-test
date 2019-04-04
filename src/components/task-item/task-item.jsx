@@ -8,10 +8,12 @@ import { toogleCkeckTask } from '../../actions';
 
 const TaskItem = ({ item, toogleCkeckTask }) => {
   const { id, title, date, place, checked } = item;
-  console.log(id, title, date, place, checked);
+  // console.log(id, title, date, place, checked);
   const handleToogleCkeckTask = () => {
     toogleCkeckTask(id);
   };
+
+  // console.log('new', checked);
 
   return (
     <tr key={id}>

@@ -5,14 +5,16 @@ const initState = {
             title: 'Мероприятие 1',
             date: new Date(2019, 3, 29),
             place: 'Нижний Новгород',
-            checked: false
+            checked: false,
+            show: true
         },
         {
             id: 1,
             title: 'Мероприятие 2',
             date: new Date(2019, 4, 1),
             place: 'Москва',
-            checked: false
+            checked: false,
+            show: true
         }
     ],
     search: '',
@@ -20,100 +22,185 @@ const initState = {
     deleteButtonDisable: true
 };
 
-const taskList = (state = initState, {type, payload}) => {
+const taskList = (state = initState, { type, payload }) => {
 
   const addTask = ({ title, date, place }) => {
-    const tasks = JSON.parse(JSON.stringify(state));
+    const titleInSearch = title.toLowerCase().indexOf(state.search.toLowerCase()) > -1;
 
-    tasks.tasks.push({
-      id: tasks.tasks.length,
+    const newTask = {
+      id: state.tasks.length,
       title,
       date,
       place,
-      checked: false
-    });
+      checked: false,
+      show: titleInSearch ? true : false
+    };
 
-    return tasks;
+
+
+    return {
+      ...state,
+      tasks: [...state.tasks, newTask]
+    };
   };
 
   const deleteTask = () => {
-    const tasks = JSON.parse(JSON.stringify(state));
+    const newTasks = state.tasks.filter((el) => {
+      return !el.checked;
+    });
 
-    const newState = {
-      tasks: [],
-      search: '',
+    return {
+      ...state,
+      tasks: newTasks,
       checkedAll: false,
       deleteButtonDisable: true
     };
-
-    tasks.tasks.forEach((el) => {
-      if (!el.checked) {
-        newState.tasks.push(el);
-      }
-    });
-
-    return newState;
   };
 
-  const checkAllTask = () => {
-    const tasks = JSON.parse(JSON.stringify(state));
-
-    if (tasks.checkedAll) {
-      tasks.checkedAll = false;
-
-      tasks.tasks.forEach((el) => {
-          el.checked = false;
+  const toogleCheckAllTask = () => {
+    const toogleCheck = (value) => {
+      const newTasks = state.tasks.map((el) => {
+        if (el.show) {
+          return  {
+            ...el,
+            checked: value
+          };
+        } else {
+          return  {
+            ...el,
+            checked: false
+          };
+        }
       });
-      tasks.deleteButtonDisable = true;
+
+      return {
+        tasks: newTasks,
+      }
+    };
+
+    if (state.checkedAll) {
+      return {
+        ...state,
+        ...toogleCheck(false),
+        deleteButtonDisable: true,
+        checkedAll: false
+      }
     } else {
-      tasks.checkedAll = true;
-
-      tasks.tasks.forEach((el) => {
-          el.checked = true;
-      });
-      tasks.deleteButtonDisable = false;
+      return {
+        ...state,
+        ...toogleCheck(true),
+        deleteButtonDisable: false,
+        checkedAll: true
+      }
     }
-
-    return tasks;
   };
 
   const checkTask = (id) => {
-    const tasks = JSON.parse(JSON.stringify(state));
-
-    tasks.tasks.forEach((el) => {
-      if (el.id === id) {
-        el.checked = !el.checked;
+    const newTasks = state.tasks.map((el) => {
+      if (el.show) {
+        return {
+          ...el,
+          checked: el.id === id ? !el.checked : el.checked
+        };
+      } else {
+        return {
+          ...el,
+          checked: false
+        };
       }
     });
 
-    const everyChecked = tasks.tasks.every((el) => {
-      return el.checked;
+    const everyChecked = newTasks.every((el) => {
+      if (el.show) {
+        return el.checked;
+      } else {
+        return true;
+      }
     });
 
+    let checkedControl;
+
     if (everyChecked) {
-      tasks.checkedAll = true;
-      tasks.deleteButtonDisable = false;
+      checkedControl = {
+        deleteButtonDisable: false,
+        checkedAll: true
+      }
     } else {
-      tasks.checkedAll = false;
-      const someChecked = tasks.tasks.some((el) => {
-        return el.checked;
+      const someChecked = newTasks.some((el) => {
+        if (el.show) {
+          return el.checked;
+        } else {
+          return false;
+        }
       });
+
       if (someChecked) {
-        tasks.deleteButtonDisable = false;
+        checkedControl = {
+          deleteButtonDisable: false,
+          checkedAll: false
+        }
       } else {
-        tasks.deleteButtonDisable = true;
+        checkedControl = {
+          deleteButtonDisable: true,
+          checkedAll: false
+        }
       }
     }
 
-    return tasks;
+    return {
+      ...state,
+      tasks: newTasks,
+      ...checkedControl
+    }
   };
 
   const searchTask = (text) => {
-    const tasks = JSON.parse(JSON.stringify(state));
+    if (text.length === 0) {
+      const newTasks = state.tasks.map((el) => {
+        return {
+          ...el,
+          show: true
+        }
+      });
 
-    tasks.search = text;
+      return {
+        ...state,
+        tasks: newTasks,
+        search: text,
+      };
+    }
+    const newTasks = state.tasks.map((el) => {
+      const entries = el.title.toLowerCase().indexOf(text.toLowerCase());
 
-    return tasks;
+      if (entries  > -1) {
+        return {
+          ...el,
+          show: true
+        }
+      } else {
+        return {
+          ...el,
+          show: false,
+          checked: false,
+        }
+      }
+    });
+
+    const someChecked = newTasks.some((el) => {
+      return el.show;
+    });
+
+    const everyChecked = newTasks.every((el) => {
+      return el.show;
+    });
+
+    return {
+      ...state,
+      tasks: newTasks,
+      search: text,
+      deleteButtonDisable: someChecked ? false : true,
+      checkedAll: everyChecked ? true : false
+    }
   };
 
   switch (type) {
@@ -124,7 +211,7 @@ const taskList = (state = initState, {type, payload}) => {
       return deleteTask();
 
     case 'TOOGLE_CKECK_ALL_TASK':
-      return checkAllTask();
+      return toogleCheckAllTask();
 
     case 'TOOGLE_CKECK_TASK':
       return checkTask(payload);
