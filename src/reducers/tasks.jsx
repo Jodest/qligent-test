@@ -77,7 +77,7 @@ const tasks = (state = initState, {type, payload}) => {
     checked[id]
         // Delete this item from list of checked.
         ? delete checked[id]
-        // Else set this item ir to checked list.
+        // Else set this item into checked list.
         : checked[id] = true;
 
     return ({
