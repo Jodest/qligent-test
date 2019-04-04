@@ -1,4 +1,4 @@
-import { addTask, deleteTask, searchTask, toogleCkeckAllTask, toogleCkeckTask } from './task-list';
+import { addTask, deleteTask, searchTask, toggleCheckAllTask, toggleCheckTask } from './task-list';
 import { openAddTaskDialog, closeAddTaskDialog } from './add-task-dialog';
 import { openDeleteTaskDialog, closeDeleteTaskDialog } from './delete-task-dialog';
 
@@ -6,8 +6,8 @@ export {
   addTask,
   deleteTask,
   searchTask,
-  toogleCkeckAllTask,
-  toogleCkeckTask
+  toggleCheckAllTask,
+  toggleCheckTask
 };
 
 export {

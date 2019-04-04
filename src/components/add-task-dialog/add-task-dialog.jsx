@@ -17,8 +17,6 @@ const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog }) => {
     closeAddTaskDialog();
   };
 
-  // console.log(addTask, closeAddTaskDialog);
-
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [place, setPlace] = useState('');

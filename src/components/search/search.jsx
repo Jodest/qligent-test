@@ -1,27 +1,37 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
-import Input from '@material-ui/core/Input';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 import { searchTask } from '../../actions';
 
-const Search = ({ taskList, searchTask }) => {
-  const handleSearchTask = (event) => {
-    searchTask(event.target.value);
+import Input from '@material-ui/core/Input';
+
+const Search = ({ searchTask }) => {
+  const [value, setValue] = useState('');
+
+  const handleSearch = ({ target }) => {
+    setValue(target.value);
+    searchTask(target.value || null);
   };
 
   return (
-    <Input type="text" placeholder="Поиск" value={taskList.search} onChange={handleSearchTask} />
+    <Input
+      type="text"
+      placeholder="Поиск"
+      value={value}
+      onChange={handleSearch}
+    />
   );
 };
 
-const mapStateToProps = ({ taskList }) => ({
-  taskList,
+const mapStateToProps = ({ tasks }) => ({
+  tasks
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+const mapDispatchToProps = {
   searchTask
-}, dispatch);
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Search);

@@ -8,11 +8,11 @@ import TaskItem from '../task-item';
 
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { toogleCkeckAllTask } from '../../actions';
+import { toogleCheckAllTask } from '../../actions';
 
-const TaskBlock = ({ taskList, toogleCkeckAllTask }) => {
-  const handleToogleCkeckAllTask = () => {
-    toogleCkeckAllTask();
+const TaskBlock = ({ taskList, toogleCheckAllTask }) => {
+  const handleToogleCheckAllTask = () => {
+    toogleCheckAllTask();
   };
 
   const renderRow = () => {
@@ -31,7 +31,7 @@ const TaskBlock = ({ taskList, toogleCkeckAllTask }) => {
       <thead>
         <tr>
           <th>
-            <Checkbox onChange={handleToogleCkeckAllTask} checked={taskList.checkedAll} />
+            <Checkbox onChange={handleToogleCheckAllTask} checked={taskList.checkedAll} />
           </th>
           <th>Название</th>
           <th>Дата</th>
@@ -51,7 +51,7 @@ const mapStateToProps = ({ taskList }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  toogleCkeckAllTask
+  toogleCheckAllTask
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskBlock);

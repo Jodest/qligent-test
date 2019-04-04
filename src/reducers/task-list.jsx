@@ -210,10 +210,10 @@ const taskList = (state = initState, { type, payload }) => {
     case 'DELETE_TASK':
       return deleteTask();
 
-    case 'TOOGLE_CKECK_ALL_TASK':
+    case 'TOOGLE_CHECK_ALL_TASK':
       return toogleCheckAllTask();
 
-    case 'TOOGLE_CKECK_TASK':
+    case 'TOOGLE_CHECK_TASK':
       return checkTask(payload);
 
     case 'SEARCH_TASK':

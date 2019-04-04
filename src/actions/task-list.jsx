@@ -3,22 +3,20 @@ export const addTask = (data) => ({
   payload: data
 });
 
-export const deleteTask = (data) => ({
-  type: 'DELETE_TASK',
-  payload: data
+export const deleteTask = () => ({
+  type: 'DELETE_TASK'
 });
 
-export const searchTask = (text) => ({
+export const searchTask = (value) => ({
   type: 'SEARCH_TASK',
-  payload: text
+  payload: value
 });
 
-export const toogleCkeckAllTask = (text) => ({
-  type: 'TOOGLE_CKECK_ALL_TASK',
-  payload: text
+export const toggleCheckAllTask = () => ({
+  type: 'TOGGLE_CHECK_ALL_TASK'
 });
 
-export const toogleCkeckTask = (id) => ({
-    type: 'TOOGLE_CKECK_TASK',
+export const toggleCheckTask = (id) => ({
+    type: 'TOGGLE_CHECK_TASK',
     payload: id
 });
