@@ -1,44 +1,38 @@
 export const addTask = (data) => ({
   type: 'ADD_TASK',
-  payload: data
+  payload: data,
 });
 
-export const deleteTask = (data) => ({
+export const deleteTask = () => ({
   type: 'DELETE_TASK',
-  payload: data
 });
 
-export const searchTask = (text) => ({
+export const searchTask = (value) => ({
   type: 'SEARCH_TASK',
-  payload: text
+  payload: value,
 });
 
-export const openAddTaskDialog = (text) => ({
+export const openAddTaskDialog = () => ({
   type: 'OPEN_ADD_TASK_DIALOG',
-  payload: text
 });
 
-export const closeAddTaskDialog = (text) => ({
+export const closeAddTaskDialog = () => ({
   type: 'CLOSE_ADD_TASK_DIALOG',
-  payload: text
 });
 
-export const openDeleteTaskDialog = (text) => ({
+export const openDeleteTaskDialog = () => ({
   type: 'OPEN_DELETE_TASK_DIALOG',
-  payload: text
 });
 
-export const closeDeleteTaskDialog = (text) => ({
+export const closeDeleteTaskDialog = () => ({
   type: 'CLOSE_DELETE_TASK_DIALOG',
-  payload: text
 });
 
-export const toogleCkeckAllTask = (text) => ({
-  type: 'TOOGLE_CKECK_ALL_TASK',
-  payload: text
+export const toggleCheckAllTask = () => ({
+  type: 'TOGGLE_CHECK_ALL_TASK',
 });
 
-export const toogleCkeckTask = (id) => ({
-    type: 'TOOGLE_CKECK_TASK',
-    payload: id
+export const toggleCheckTask = (id) => ({
+  type: 'TOGGLE_CHECK_TASK',
+  payload: id,
 });

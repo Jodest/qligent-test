@@ -2,7 +2,7 @@ const initState = {
     show: false
 };
 
-const deleteTaskDialog = (state = initState, {type, payload}) => {
+const deleteTaskDialog = (state = initState, {type}) => {
 
   switch (type) {
     case 'OPEN_DELETE_TASK_DIALOG':

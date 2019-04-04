@@ -1,32 +1,43 @@
 import React from 'react';
+
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {toggleCheckTask} from '../../actions';
 
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { toogleCkeckTask } from '../../actions';
+const TaskItem = ({
+                    item: {
+                      id, title, date, place,
+                    },
+                    tasks,
+                    toggleCheckTask,
+                  }) => {
 
-const TaskItem = ({ item, toogleCkeckTask }) => {
-  const { id, title, date, place, checked } = item;
-  console.log(id, title, date, place, checked);
-  const handleToogleCkeckTask = () => {
-    toogleCkeckTask(id);
+  const handleToggleCheckTask = () => {
+    toggleCheckTask(id);
   };
 
   return (
-    <tr key={id}>
-      <td>
-        <Checkbox onChange={handleToogleCkeckTask} checked={checked} />
-      </td>
-      <td>{title}</td>
-      <td>{new Date(date).toLocaleDateString()}</td>
-      <td>{place}</td>
-    </tr>
+      <tr key={id}>
+        <td>
+          <Checkbox
+              onChange={handleToggleCheckTask}
+              checked={Boolean(tasks.checked[id])}
+          />
+        </td>
+        <td>{title}</td>
+        <td>{date}</td>
+        <td>{place}</td>
+      </tr>
   );
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  toogleCkeckTask
-}, dispatch);
+const mapStateToProps = ({tasks}) => ({
+  tasks,
+});
 
-export default connect(null, mapDispatchToProps)(TaskItem);
+const mapDispatchToProps = {
+  toggleCheckTask,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskItem);

@@ -1,85 +1,100 @@
 import React from 'react';
+
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {
+  openAddTaskDialog,
+  openDeleteTaskDialog,
+  toggleCheckAllTask,
+} from '../../actions';
 
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Table from '@material-ui/core/Table';
 
 import Search from '../search';
 import TaskItem from '../task-item';
 
-import Checkbox from '@material-ui/core/Checkbox';
+// [TODO] Handle sort task by data.
+const TaskBlock = ({
+                     tasks,
+                     openAddTaskDialog,
+                     openDeleteTaskDialog,
+                     toggleCheckAllTask,
+                   }) => {
+  const lengthCheckedId = Object.keys(tasks.checked).length;
+  const lengthSearchedId = Object.keys(tasks.search).length;
 
-import { openAddTaskDialog, openDeleteTaskDialog, toogleCkeckAllTask } from '../../actions';
-
-const TaskBlock = ({ taskList, openAddTaskDialog, openDeleteTaskDialog, toogleCkeckAllTask }) => {
-  console.log('raz', taskList);
   const handleOpenAddTaskDialog = () => {
     openAddTaskDialog();
   };
   const handleOpenDeleteTaskDialog = () => {
     openDeleteTaskDialog();
   };
-  const handleToogleCkeckAllTask = () => {
-    toogleCkeckAllTask();
+  const handleToggleCheckAllTask = () => {
+    toggleCheckAllTask();
   };
 
-  const renderRow = () => {
-    if (taskList.search.length) {
-      const renderTask = taskList.tasks.filter((el) => {
-        return el.title.toLowerCase().indexOf(taskList.search.toLowerCase()) > -1;
-      });
-      return renderTask.map((el) => {
-        return (
-          <TaskItem item={el} key={el.id}></TaskItem>
-        );
-      });
-    } else {
-      return taskList.tasks.map((el) => {
-        return (
-          <TaskItem item={el} key={el.id}></TaskItem>
-        );
-      });
-    }
-  };
+  const isCheckedAll = Boolean(
+      (lengthCheckedId && lengthCheckedId === tasks.data.length)
+      || (lengthSearchedId && lengthCheckedId === lengthSearchedId),
+  );
+
+  const renderRows = () =>
+      lengthSearchedId
+          ? tasks.data.
+              filter((item) => tasks.search[item.id]).
+              map(item => <TaskItem item={item} key={item.id}/>)
+          : tasks.data.map((item) => <TaskItem item={item} key={item.id}/>);
 
   return (
-    <div>
-      <header>
-        <div className="buttons">
-          <Button onClick={handleOpenAddTaskDialog}>+</Button>
-          <Button onClick={handleOpenDeleteTaskDialog} disabled={taskList.deleteButtonDisable}>-</Button>
-        </div>
-        <Search></Search>
-      </header>
-      <Table className="table">
-        <thead>
+      <div>
+        <header>
+          <div className="buttons">
+            <Button onClick={handleOpenAddTaskDialog}>
+              +
+            </Button>
+            <Button
+                onClick={handleOpenDeleteTaskDialog}
+                disabled={!lengthCheckedId}
+            >
+              -
+            </Button>
+          </div>
+
+          <Search/>
+        </header>
+
+        <Table className="table">
+          <thead>
           <tr>
             <th>
-              <Checkbox onChange={handleToogleCkeckAllTask} checked={taskList.checkedAll} />
+              <Checkbox
+                  onChange={handleToggleCheckAllTask}
+                  checked={isCheckedAll}
+              />
             </th>
             <th>Название</th>
             <th>Дата</th>
             <th>Место проведения</th>
           </tr>
-        </thead>
+          </thead>
 
-        <tbody>
-          {renderRow()}
-        </tbody>
-      </Table>
-    </div>
+          <tbody>
+          {renderRows()}
+          </tbody>
+        </Table>
+      </div>
   );
 };
 
-const mapStateToProps = ({ taskList }) => ({
-  taskList,
+const mapStateToProps = ({tasks}) => ({
+  tasks,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+const mapDispatchToProps = {
   openAddTaskDialog,
   openDeleteTaskDialog,
-  toogleCkeckAllTask
-}, dispatch);
+  toggleCheckAllTask,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskBlock);
