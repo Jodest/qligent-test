@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 
 import { closeAddTaskDialog, addTask } from '../../actions';
 
-const storeAddTaskDialog = (Wrapped) => ({ addTaskDialog, addTask, closeAddTaskDialog }) => {
+const storeAddTaskDialog = (Wrapped) => (props) => {
   return (
-    <Wrapped addTaskDialog={addTaskDialog} closeAddTaskDialog={closeAddTaskDialog} addTask={addTask} />
+    <Wrapped {...props} />
   );
 };
 
@@ -14,10 +14,10 @@ const mapStateToProps = ({ addTaskDialog }) => ({
   addTaskDialog
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+const mapDispatchToProps = {
   closeAddTaskDialog,
   addTask
-}, dispatch);
+};
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
