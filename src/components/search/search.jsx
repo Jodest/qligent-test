@@ -5,11 +5,13 @@ import { searchTask } from '../../actions';
 
 import Input from '@material-ui/core/Input';
 
-const Search = ({ searchTask }) => {
-  const [value, setValue] = useState('');
+const Search = ({ tasks, searchTask }) => {
+  console.log(tasks);
+  // const [value, setValue] = useState('');
 
   const handleSearch = ({ target }) => {
-    setValue(target.value);
+    // setValue(target.value);
+    console.log('tut', target.value);
     searchTask(target.value || null);
   };
 
@@ -17,7 +19,7 @@ const Search = ({ searchTask }) => {
     <Input
       type="text"
       placeholder="Поиск"
-      value={value}
+      value={tasks.searchString}
       onChange={handleSearch}
     />
   );

@@ -10,6 +10,8 @@ import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
 import { storeAddTaskDialog, withCityService } from '../hoc';
 // import { compose } from '../../utils';
@@ -28,26 +30,38 @@ const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService
   const [place, setPlace] = useState('');
 
   return (
-    <Dialog open={addTaskDialog.show}>
+    <Dialog
+      open={addTaskDialog.show}
+      onClose={handleCloseAddTaskDialog}
+      disableBackdropClick={true}
+    >
       <DialogTitle className="title">Добавление мероприятия</DialogTitle>
       <DialogContent className="form">
-        <Input type="text" value={title} placeholder="Название" onChange={(event) => setTitle(event.target.value)} />
-        {/* <Input type="date" value={date} placeholder="Дата" onChange={(event) => setDate(event.target.value)} /> */}
-        <TextField
-          id="date"
-          type="date"
-          value={date}
-          placeholder="Дата" 
-          onChange={(event) => setDate(event.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <Select value={place} displayEmpty onChange={(event) => setPlace(event.target.value)}>
-        {
-          cityService.data.map((el, ind) => <MenuItem value={el} key={ind}>{el}</MenuItem>)
-        }
-        </Select>
+        <List>
+          <ListItem>
+            <Input type="text" value={title} placeholder="Название" onChange={(event) => setTitle(event.target.value)} />
+          </ListItem>
+          <ListItem>
+            <TextField
+              id="date"
+              type="date"
+              value={date}
+              placeholder="Дата"
+              label="Дата"
+              onChange={(event) => setDate(event.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </ListItem>
+          <ListItem>
+            <Select value={place} displayEmpty onChange={(event) => setPlace(event.target.value)}>
+              {
+                cityService.data.map((el, ind) => <MenuItem value={el} key={ind}>{el}</MenuItem>)
+              }
+            </Select>
+          </ListItem>
+        </List>
       </DialogContent>
       <DialogActions className="buttons">
         <Button className="cancel" onClick={handleCloseAddTaskDialog}>Отмена</Button>

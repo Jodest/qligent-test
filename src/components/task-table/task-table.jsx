@@ -1,57 +1,80 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
-import Table from '@material-ui/core/Table';
 
 import TaskItem from '../task-item';
+import { toggleCheckAllTask } from '../../actions';
 
 import Checkbox from '@material-ui/core/Checkbox';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 
-import { toogleCheckAllTask } from '../../actions';
-
-const TaskBlock = ({ taskList, toogleCheckAllTask }) => {
-  const handleToogleCheckAllTask = () => {
-    toogleCheckAllTask();
+const TaskBlock = ({ tasks, toggleCheckAllTask }) => {
+  const handleToggleCheckAllTask = () => {
+    toggleCheckAllTask();
   };
 
-  const renderRow = () => {
-    return taskList.tasks.map((el) => {
-      if (el.show) {
-        return (
-          <TaskItem item={el} key={el.id}></TaskItem>
-        );
-      }
-      return null;
-    })
-  };
+  const lengthCheckedId = Object.keys(tasks.checked).length;
+  const lengthSearchedId = Object.keys(tasks.search).length;
+
+  const isCheckedAll = Boolean(
+    (lengthCheckedId && lengthCheckedId === tasks.data.length)
+    || (lengthSearchedId && lengthCheckedId === lengthSearchedId),
+  );
+
+  const renderRows = () =>
+    lengthSearchedId
+        ? tasks.data.filter((item) => tasks.search[item.id]).map(item => <TaskItem item={item} key={item.id}/>)
+        : tasks.data.map((item) => <TaskItem item={item} key={item.id}/>);
 
   return (
-    <Table className="table">
-      <thead>
-        <tr>
-          <th>
-            <Checkbox onChange={handleToogleCheckAllTask} checked={taskList.checkedAll} />
-          </th>
-          <th>Название</th>
-          <th>Дата</th>
-          <th>Место проведения</th>
-        </tr>
-      </thead>
+    // <Table className="table">
+    //   <TableHead>
+    //     <TableRow>
+    //       <TableCell>
+    //         <Checkbox onChange={handleToggleCheckAllTask} checked={isCheckedAll} />
+    //       </TableCell>
+    //       <TableCell>Название</TableCell>
+    //       <TableCell>Дата</TableCell>
+    //       <TableCell>Место проведения</TableCell>
+    //     </TableRow>
+    //   </TableHead>
 
-      <tbody>
-        {renderRow()}
-      </tbody>
-    </Table>
+    //   <TableBody>
+    //     {renderRows()}
+    //   </TableBody>
+    // </Table>
+    <List>
+      <ListSubheader>
+        <Checkbox onChange={handleToggleCheckAllTask} checked={isCheckedAll} />
+        <ListItemText>
+          Название
+        </ListItemText>
+        <ListItemText>
+          Дата
+        </ListItemText>
+        <ListItemText>
+          Место проведения
+        </ListItemText>
+      </ListSubheader>
+      {renderRows()}
+    </List>
   );
 };
 
-const mapStateToProps = ({ taskList }) => ({
-  taskList,
+const mapStateToProps = ({ tasks }) => ({
+  tasks,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  toogleCheckAllTask
-}, dispatch);
+const mapDispatchToProps = {
+  toggleCheckAllTask
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskBlock);

@@ -1,5 +1,4 @@
 const initState = {
-    // Data of tasks
     data: [
       {
         id: 0,
@@ -13,28 +12,28 @@ const initState = {
         place: 'Москва',
       },
     ],
-    // Hold id's of checked items
     checked: {},
-    // Hold id's of searched items
     search: {},
+    searchString: ''
   };
-
-  // [NOTE] Crutch to handle ID for tasks.
-  let taskId = 2;
 
   const tasks = (state = initState, {type, payload}) => {
 
     const addTask = (task) => {
-      // Create new task.
       const newTask = {
-        id: taskId++,
+        id: state.data.length,
         ...task,
       };
 
+      let newSearch = {};
+      if (state.searchString.length !== 0 && task.title.includes(state.searchString.length)) {
+        newSearch[newTask.id] = true;
+      }
+
       return ({
         ...state,
-        // Create new array tasks and add new task.
         data: [...state.data, newTask],
+        search: {...state.search, ...newSearch}
       });
     };
 
@@ -43,12 +42,7 @@ const initState = {
       const searchedLength = Object.keys(state.search).length;
 
       return (
-          // Is all searched items checked?
-          searchedLength === checkedLength
-              // Reset checked.
-              ? ({...state, checked: {}})
-              // Else make all founded items checked
-              : ({...state, checked: state.search})
+          searchedLength === checkedLength ? ({...state, checked: {}}) : ({...state, checked: state.search})
       );
     };
 
@@ -60,25 +54,14 @@ const initState = {
           (acc, next) => ({...acc, [next.id]: true}), {});
 
       return (
-          // Is all items checked?
-          checkedLength === tasksLength
-              // Return empty checked list (reset checked list).
-              ? ({...state, checked: {}})
-              // Else make all items checked and return this new checked list.
-              : ({...state, checked: checkedAll})
+          checkedLength === tasksLength ? ({...state, checked: {}}) : ({...state, checked: checkedAll})
       );
     };
 
     const toggleTask = (id) => {
-      // Make copy of checked list.
       const checked = {...state.checked};
 
-      // Is item checked?
-      checked[id]
-          // Delete this item from list of checked.
-          ? delete checked[id]
-          // Else set this item into checked list.
-          : checked[id] = true;
+      checked[id] ? delete checked[id] : checked[id] = true;
 
       return ({
         ...state,
@@ -88,35 +71,29 @@ const initState = {
 
     const deleteItem = () => {
       const checked = {...state.checked};
-      // Create new data with all unchecked items.
       const data = state.data.filter(item => !checked[item.id]);
 
       return ({
         ...state,
         data,
-        // Reset checked list.
         checked: {},
       });
     };
 
     const searchTask = (value) => {
-      // Find items
-      // and create new search list that holds founded items id's.
-      console.log(value)
-      const search = state.data.reduce((acc, next) =>
-              // Is title or place has value?
-              next.title.includes(value) || next.place.includes(value)
-                  // Add founded item into list.
-                  ? ({...acc, [next.id]: true})
-                  // Else move to next item.
-                  : acc
-          , {});
+      const search = state.data.reduce((acc, next) => {
+              if (next.title.includes(value) || next.place.includes(value)) {
+                return ({...acc, [next.id]: true});
+              } else {
+                return acc;
+              }
+      }, {});
 
       return ({
         ...state,
-        // Reset checked list.
         checked: {},
         search,
+        searchString: value || ''
       });
     };
 
