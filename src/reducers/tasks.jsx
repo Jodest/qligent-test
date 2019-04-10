@@ -17,16 +17,17 @@ const initState = {
     searchString: ''
   };
 
-  const tasks = (state = initState, {type, payload}) => {
+  let itemId = 2;
 
+  const tasks = (state = initState, {type, payload}) => {
     const addTask = (task) => {
       const newTask = {
-        id: state.data.length,
+        id: itemId++,
         ...task,
       };
 
       let newSearch = {};
-      if (state.searchString.length !== 0 && task.title.includes(state.searchString.length)) {
+      if (state.searchString.length !== 0 && task.title.toLowerCase().includes(state.searchString)) {
         newSearch[newTask.id] = true;
       }
 
@@ -82,11 +83,11 @@ const initState = {
 
     const searchTask = (value) => {
       const search = state.data.reduce((acc, next) => {
-              if (next.title.includes(value) || next.place.includes(value)) {
-                return ({...acc, [next.id]: true});
-              } else {
-                return acc;
-              }
+        if (next.title.toLowerCase().includes(value.toLowerCase())) {
+          return ({...acc, [next.id]: true});
+        } else {
+          return ({...acc, [next.id]: false});
+        }
       }, {});
 
       return ({

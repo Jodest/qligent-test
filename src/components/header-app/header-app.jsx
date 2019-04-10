@@ -9,9 +9,9 @@ import './header-app.scss';
 const Header = () => {
   return (
     <AppBar position="static" className={'header'}>
-      {/* <Toolbar> */}
-        <h2>Мероприятия</h2>
-      {/* </Toolbar> */}
+      <Toolbar>
+        <Typography component="h3" gutterBottom>Мероприятия</Typography>
+      </Toolbar>
     </AppBar>
   );
 };

@@ -2,11 +2,13 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import TaskTable from '../task-table';
+import TaskList from '../task-list';
 import Search from '../search';
 import { openAddTaskDialog, openDeleteTaskDialog } from '../../actions';
 
 import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 import './task-block.scss'
 
@@ -26,19 +28,34 @@ const TaskBlock = ({
 
   return (
     <div className="task-block">
-      <header className="task-block-header">
-        <div className="buttons">
-          <Button onClick={handleOpenAddTaskDialog}>+</Button>
-          <Button onClick={handleOpenDeleteTaskDialog} disabled={!lengthCheckedId}>-</Button>
-        </div>
-        <Search />
-      </header>
-      <TaskTable />
+      <AppBar
+        className="task-block-header"
+        position="relative"
+        classes={{}}
+      >
+        <Toolbar>
+          <div className="buttons">
+            <Button
+              onClick={ handleOpenAddTaskDialog }
+            >
+              +
+            </Button>
+            <Button
+              onClick={ handleOpenDeleteTaskDialog }
+              disabled={ !lengthCheckedId }
+            >
+              -
+            </Button>
+          </div>
+          <Search />
+        </Toolbar>
+      </AppBar>
+      <TaskList />
     </div>
   );
 };
 
-const mapStateToProps = ({tasks}) => ({
+const mapStateToProps = ({ tasks }) => ({
   tasks,
 });
 

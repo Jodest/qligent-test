@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { compose } from 'redux';
 
+import { storeAddTaskDialog, withCityService } from '../hoc';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -13,15 +15,14 @@ import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
-import { storeAddTaskDialog, withCityService } from '../hoc';
-// import { compose } from '../../utils';
-
 const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService }) => {
   const handleCloseAddTaskDialog = () => {
+    clearState();
     closeAddTaskDialog();
   };
   const handleAddTask = () => {
     addTask({ title, date, place });
+    clearState();
     closeAddTaskDialog();
   };
 
@@ -29,14 +30,21 @@ const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService
   const [date, setDate] = useState('');
   const [place, setPlace] = useState('');
 
+  const clearState = () => {
+    setTitle('');
+    setDate('');
+    setPlace('');
+  }
+
   return (
     <Dialog
       open={addTaskDialog.show}
       onClose={handleCloseAddTaskDialog}
       disableBackdropClick={true}
+      aria-labelledby="form-dialog-title"
     >
       <DialogTitle className="title">Добавление мероприятия</DialogTitle>
-      <DialogContent className="form">
+      <DialogContent>
         <List>
           <ListItem>
             <Input type="text" value={title} placeholder="Название" onChange={(event) => setTitle(event.target.value)} />
