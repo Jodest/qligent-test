@@ -1,56 +1,85 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
 import TaskList from '../task-list';
 import Search from '../search';
-import { openAddTaskDialog, openDeleteTaskDialog } from '../../actions';
+import { openAddTaskDialog, openDeleteTaskDialog, searchTask, toggleCheckAllTask, toggleCheckTask } from '../../actions';
 
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import { withStyles } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
 
-import './task-block.scss'
+const styles = theme => ({
+  header: {
+    backgroundColor: grey[300],
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  button: {
+    fontSize: 30
+  },
+  search: {
+    width: 500
+  },
+  taskBlock: {
+    width: '80%',
+    margin: '0 auto',
+    marginTop: 20
+  }
+});
 
 const TaskBlock = ({
                      tasks,
                      openAddTaskDialog,
-                     openDeleteTaskDialog
+                     openDeleteTaskDialog,
+                     searchTask,
+                     toggleCheckAllTask,
+                     toggleCheckTask,
+                     classes
                    }) => {
   const lengthCheckedId = Object.keys(tasks.checked).length;
 
-  const handleOpenAddTaskDialog = () => {
-    openAddTaskDialog();
-  };
-  const handleOpenDeleteTaskDialog = () => {
-    openDeleteTaskDialog();
-  };
-
   return (
-    <div className="task-block">
+    <div className={classes.taskBlock}>
       <AppBar
-        className="task-block-header"
+        className={classes.header}
         position="relative"
-        classes={{}}
+        color="secondary"
       >
         <Toolbar>
-          <div className="buttons">
-            <Button
-              onClick={ handleOpenAddTaskDialog }
-            >
-              +
-            </Button>
-            <Button
-              onClick={ handleOpenDeleteTaskDialog }
-              disabled={ !lengthCheckedId }
-            >
-              -
-            </Button>
-          </div>
-          <Search />
+          <Button
+            onClick={ () => openAddTaskDialog() }
+            className={classes.button}
+          >
+            +
+          </Button>
+          <Button
+            onClick={ () => openDeleteTaskDialog() }
+            disabled={ !lengthCheckedId }
+            className={classes.button}
+          >
+            -
+          </Button>
+        </Toolbar>
+
+        <Toolbar className={classes.search}>
+          <Search
+            list={tasks}
+            searchAction={searchTask}
+          />
         </Toolbar>
       </AppBar>
-      <TaskList />
+
+      <TaskList
+        list={tasks}
+        toggleCheckAllTask={toggleCheckAllTask}
+        toggleCheckTask={toggleCheckTask}
+      />
     </div>
   );
 };
@@ -61,7 +90,14 @@ const mapStateToProps = ({ tasks }) => ({
 
 const mapDispatchToProps = {
   openAddTaskDialog,
-  openDeleteTaskDialog
+  openDeleteTaskDialog,
+  searchTask,
+  toggleCheckAllTask,
+  toggleCheckTask
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskBlock);
+TaskBlock.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TaskBlock));

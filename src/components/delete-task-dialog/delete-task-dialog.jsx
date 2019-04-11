@@ -20,15 +20,25 @@ const DeleteTaskDialog = ({ deleteTaskDialog, deleteTask, closeDeleteTaskDialog 
     closeDeleteTaskDialog();
   };
 
-    return (
-      <Dialog open={deleteTaskDialog.show}>
-        <DialogTitle>Подтвердите удаление</DialogTitle>
-        <DialogActions>
-          <Button onClick={cancel}>Отмена</Button>
-          <Button onClick={confirmDelete}>Удалить</Button>
-        </DialogActions>
-      </Dialog>
-    );
+  return (
+    <Dialog open={deleteTaskDialog.show}>
+      <DialogTitle>Подтвердите удаление</DialogTitle>
+      <DialogActions>
+        <Button
+          onClick={cancel}
+          color="primary"
+        >
+          Отмена
+        </Button>
+        <Button
+          onClick={confirmDelete}
+          color="primary"
+        >
+          Удалить
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };
 
 const mapStateToProps = ({ deleteTaskDialog }) => ({

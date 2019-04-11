@@ -1,40 +1,38 @@
 import React from 'react';
-import {connect} from 'react-redux';
-
-import { toggleCheckTask } from '../../actions';
+import PropTypes from 'prop-types';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles';
 
-const TaskItem = ({ item, tasks, toggleCheckTask }) => {
+const styles = theme => ({
+  item: {
+    width: '30%'
+  }
+});
+
+const TaskItem = ({ item, list, toggleCheckTask, classes }) => {
   const { id, title, date, place } = item;
-  const handleToggleCheckTask = () => {
-    toggleCheckTask(id);
-  };
 
   return (
-    <ListItem divider={true} button={true} onClick={handleToggleCheckTask}>
-        <Checkbox checked={Boolean(tasks.checked[id])} />
-        <ListItemText>
+    <ListItem divider={true} button={true} onClick={() => toggleCheckTask(id)}>
+        <Checkbox checked={Boolean(list.checked[id])} />
+        <ListItemText className={classes.item}>
           {title}
         </ListItemText>
-        <ListItemText>
+        <ListItemText className={classes.item}>
           {new Date(date).toLocaleDateString()}
         </ListItemText>
-        <ListItemText>
+        <ListItemText className={classes.item}>
           {place}
         </ListItemText>
     </ListItem>
   );
 };
 
-const mapStateToProps = ({ tasks }) => ({
-  tasks,
-});
-
-const mapDispatchToProps = {
-  toggleCheckTask
+TaskItem.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskItem);
+export default withStyles(styles)(TaskItem);

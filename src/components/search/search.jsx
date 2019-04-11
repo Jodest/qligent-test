@@ -1,34 +1,29 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { searchTask } from '../../actions';
+import PropTypes from 'prop-types';
 
 import Input from '@material-ui/core/Input';
+import { withStyles } from '@material-ui/core/styles';
 
-const Search = ({ tasks, searchTask }) => {
-  const handleSearch = ({ target }) => {
-    searchTask(target.value || '');
-  };
+const styles = theme => ({
+  search: {
+    width: '100%'
+  }
+});
 
+const Search = ({ list, searchAction, classes }) => {
   return (
     <Input
       type="text"
       placeholder="Поиск"
-      value={tasks.searchString}
-      onChange={handleSearch}
+      value={list.searchString}
+      onChange={ ({target}) => searchAction(target.value || '') }
+      className={classes.search}
     />
   );
 };
 
-const mapStateToProps = ({ tasks }) => ({
-  tasks
-});
-
-const mapDispatchToProps = {
-  searchTask
+Search.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Search);
+export default withStyles(styles)(Search);

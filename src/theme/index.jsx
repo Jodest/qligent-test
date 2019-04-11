@@ -1,9 +1,11 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
+import cyan from '@material-ui/core/colors/cyan';
 
 export default createMuiTheme({
   palette: {
-    primary: blue,
+    primary: {
+      main: cyan[600]
+    }
   },
   typography: {
     useNextVariants: true,

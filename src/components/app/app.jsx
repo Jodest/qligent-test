@@ -10,7 +10,7 @@ const App = () => {
     <Fragment>
       <AddTaskDialog />
       <DeleteTaskDialog />
-      <Header />
+      <Header title={'Мероприятия'}/>
       <main role="main" className="container">
         <TaskBlock />
       </main>

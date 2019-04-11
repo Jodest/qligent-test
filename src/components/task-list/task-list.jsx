@@ -1,60 +1,62 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import TaskItem from '../task-item';
-import { toggleCheckAllTask } from '../../actions';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import grey from '@material-ui/core/colors/grey';
+import { withStyles } from '@material-ui/core/styles';
 
-const TaskList = ({ tasks, toggleCheckAllTask }) => {
-  const handleToggleCheckAllTask = () => {
-    toggleCheckAllTask();
-  };
+const styles = theme => ({
+  firstLineItem: {
+    width: '30%'
+  },
+  firstLineText: {
+    color: grey[500],
+  }
+});
 
-  const lengthCheckedId = Object.keys(tasks.checked).length;
-  const lengthSearchedId = Object.keys(tasks.search).length;
+const TaskList = ({ list, toggleCheckAllTask, toggleCheckTask, classes }) => {
+  const lengthCheckedId = Object.keys(list.checked).length;
+  const lengthSearchedId = Object.keys(list.search).length;
 
-  const isCheckedAll = Boolean((lengthCheckedId && lengthCheckedId === tasks.data.length) || (lengthSearchedId && lengthCheckedId === lengthSearchedId));
+  const isCheckedAll = Boolean((lengthCheckedId && lengthCheckedId === list.data.length) || (lengthSearchedId && lengthCheckedId === lengthSearchedId));
 
   const renderItems = () => {
     if (lengthSearchedId) {
-      return tasks.data.filter((item) => tasks.search[item.id]).map(item => <TaskItem item={item} key={item.id}/>)
+      return list.data.filter((item) => list.search[item.id]).map(item => <TaskItem item={item} key={item.id} list={list} toggleCheckTask={toggleCheckTask} />)
     } else {
-      return tasks.data.map((item) => <TaskItem item={item} key={item.id}/>);
+      return list.data.map((item) => <TaskItem item={item} key={item.id} list={list} toggleCheckTask={toggleCheckTask} />);
     }
   };
 
   return (
     <Paper>
     <List disablePadding={true}>
-      <ListItem divider={true} button={true} onClick={handleToggleCheckAllTask} className="task-list-header">
+      <ListItem
+        divider={true}
+        button={true}
+        onClick={() => toggleCheckAllTask()}
+      >
         <Checkbox checked={isCheckedAll} />
-        <ListItemText>
-          Название
-        </ListItemText>
-        <ListItemText>
-          Дата
-        </ListItemText>
-        <ListItemText>
-          Место проведения
-        </ListItemText>
+        <ListItemText className={classes.firstLineItem} primary={<Typography className={classes.firstLineText}>Название</Typography>} />
+        <ListItemText className={classes.firstLineItem} primary={<Typography className={classes.firstLineText}>Дата</Typography>} />
+        <ListItemText className={classes.firstLineItem} primary={<Typography className={classes.firstLineText}>Место проведения</Typography>} />
       </ListItem>
+
       {renderItems()}
     </List>
     </Paper>
   );
 };
 
-const mapStateToProps = ({ tasks }) => ({
-  tasks,
-});
-
-const mapDispatchToProps = {
-  toggleCheckAllTask
+TaskList.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskList);
+export default withStyles(styles)(TaskList);
