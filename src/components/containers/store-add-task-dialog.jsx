@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { closeAddTaskDialog } from '../../store/add-task-dialog';
+import { toggleAddTaskDialog } from '../../store/add-task-dialog';
 import { addTask } from '../../store/tasks';
 
 const storeAddTaskDialog = (Wrapped) => (props) => {
@@ -16,7 +16,7 @@ const mapStateToProps = ({ addTaskDialog }) => ({
 });
 
 const mapDispatchToProps = {
-  closeAddTaskDialog,
+  toggleAddTaskDialog,
   addTask
 };
 

@@ -1,8 +1,7 @@
-import { openDeleteTaskDialog, closeDeleteTaskDialog } from './actions';
+import { toggleDeleteTaskDialog } from './actions';
 import deleteTaskDialog from './reducer';
 
 export {
-  openDeleteTaskDialog,
-  closeDeleteTaskDialog,
+  toggleDeleteTaskDialog,
   deleteTaskDialog
 };

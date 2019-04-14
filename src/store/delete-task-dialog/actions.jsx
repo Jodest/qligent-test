@@ -1,7 +1,6 @@
-export const openDeleteTaskDialog = () => ({
-  type: 'OPEN_DELETE_TASK_DIALOG'
-});
+import { TOGGLE_DELETE_TASK_DIALOG } from '../constants';
 
-export const closeDeleteTaskDialog = () => ({
-  type: 'CLOSE_DELETE_TASK_DIALOG'
+export const toggleDeleteTaskDialog = (show) => ({
+  type: TOGGLE_DELETE_TASK_DIALOG,
+  payload: show
 });

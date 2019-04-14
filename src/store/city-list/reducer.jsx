@@ -1,57 +1,32 @@
-// const FETCH_CITIES =  (boolean) => ({
-//   type: 'FETCH_USERS',
-//   payload: boolean
-// });
+import {
+  FETCH_CITIES_REQUEST,
+  FETCH_CITIES_SUCCESS,
+  FETCH_CITIES_FAILURE
+} from '../constants';
 
-// const SUCCESS_GET_CITIES = (users) => ({
-//   type: 'SET_USERS',
-//   payload: users
-// });
+const initState = {
+  cities: [],
+  loading: true,
+  error: null
+};
 
-// const ERROR_GET_CITIES = (error) => ({
-//   type: 'ERROR_GET_USERS',
-//   payload: error
-// });
-
-// export const GET_CITIES = () => {
-//   return async dispatch => {
-//     try {
-//       dispatch(FETCH_CITIES(true))
-//       const {data} = ''
-//       dispatch(SUCCESS_GET_CITIES(data))
-//       dispatch(FETCH_CITIES(false))
-//     } catch(err) {
-//       dispatch(FETCH_CITIES(false))
-//       dispatch(ERROR_GET_CITIES(err))
-//     }
-//   }
-// };
-const updateCityList = (state, action) => {
-
-  if (state === undefined) {
-    return {
-      cities: [],
-      loading: true,
-      error: null
-    };
-  }
-
+const updateCityList = (state = initState, action) => {
   switch (action.type) {
-    case 'FETCH_CITIES_REQUEST':
+    case FETCH_CITIES_REQUEST:
       return {
         cities: [],
         loading: true,
         error: null
       };
 
-    case 'FETCH_CITIES_SUCCESS':
+    case FETCH_CITIES_SUCCESS:
       return {
         cities: action.payload,
         loading: false,
         error: null
       };
 
-    case 'FETCH_CITIES_FAILURE':
+    case FETCH_CITIES_FAILURE:
       return {
         cities: [],
         loading: false,
@@ -59,7 +34,7 @@ const updateCityList = (state, action) => {
       };
 
     default:
-      return state.cityList;
+      return state;
   }
 };
 

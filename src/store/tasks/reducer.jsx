@@ -1,3 +1,11 @@
+import {
+  ADD_TASK,
+  DELETE_TASK,
+  SEARCH_TASK,
+  TOGGLE_CHECK_ALL_TASK,
+  TOGGLE_CHECK_TASK
+} from '../constants';
+
 const initState = {
   data: [
     {
@@ -99,21 +107,21 @@ const tasks = (state = initState, {type, payload}) => {
   };
 
   switch (type) {
-    case 'ADD_TASK':
+    case ADD_TASK:
       return addTask(payload);
 
-    case 'DELETE_TASK':
+    case DELETE_TASK:
       return deleteItem();
 
-    case 'TOGGLE_CHECK_ALL_TASK':
+    case TOGGLE_CHECK_ALL_TASK:
       return Object.keys(state.search).length
           ? toggleCheckAllSearched()
           : toggleCheckAll();
 
-    case 'TOGGLE_CHECK_TASK':
+    case TOGGLE_CHECK_TASK:
       return toggleTask(payload);
 
-    case 'SEARCH_TASK':
+    case SEARCH_TASK:
       return searchTask(payload);
 
     default:

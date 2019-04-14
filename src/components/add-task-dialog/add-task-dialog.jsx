@@ -31,20 +31,19 @@ const styles = theme => ({
   }
 });
 
-const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService, fetchCities, updateCityList, classes }) => {
-  // console.log(updateCityList, fetchCities());
+const AddTaskDialog = ({ addTaskDialog, addTask, toggleAddTaskDialog, fetchCities, updateCityList, classes }) => {
   useEffect(() => {
-    console.log('chasto', fetchCities);
-    // fetchCities();
-  });
+    fetchCities();
+  }, []);
+
   const handleCloseAddTaskDialog = () => {
     clearState();
-    closeAddTaskDialog();
+    toggleAddTaskDialog(false);
   };
   const handleAddTask = () => {
     addTask({ title, date, place });
     clearState();
-    closeAddTaskDialog();
+    toggleAddTaskDialog(false);
   };
 
   const [title, setTitle] = useState('');
@@ -90,7 +89,7 @@ const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService
           <ListItem className={classes.listItem}>
             <FormControl>
               <InputLabel htmlFor="city-select">Город</InputLabel>
-              {/* <Select
+              <Select
                 value={place}
                 inputProps={{
                   name: 'city',
@@ -100,9 +99,9 @@ const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService
                 onChange={(event) => setPlace(event.target.value)}
               >
                 {
-                  cityService.data.map((el, ind) => <MenuItem value={el} key={ind}>{el}</MenuItem>)
+                  updateCityList.cities.map((el, ind) => <MenuItem value={el} key={ind}>{el}</MenuItem>)
                 }
-              </Select> */}
+              </Select>
             </FormControl>
           </ListItem>
         </List>

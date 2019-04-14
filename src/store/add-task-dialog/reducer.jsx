@@ -1,16 +1,15 @@
+import { TOGGLE_ADD_TASK_DIALOG } from '../constants';
+
 const initState = {
     show: false
 };
 
-const addTaskDialog = (state = initState, { type }) => {
-
+const addTaskDialog = (state = initState, { type, payload }) => {
   switch (type) {
-    case 'OPEN_ADD_TASK_DIALOG':
+    case TOGGLE_ADD_TASK_DIALOG:
       return {
-        show: true
-      };
-    case 'CLOSE_ADD_TASK_DIALOG':
-      return initState;
+        show: payload
+      }
 
     default:
       return state;

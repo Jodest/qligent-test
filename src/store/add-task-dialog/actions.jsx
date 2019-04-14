@@ -1,7 +1,6 @@
-export const openAddTaskDialog = () => ({
-  type: 'OPEN_ADD_TASK_DIALOG'
-});
+import { TOGGLE_ADD_TASK_DIALOG } from '../constants';
 
-export const closeAddTaskDialog = () => ({
-  type: 'CLOSE_ADD_TASK_DIALOG'
+export const toggleAddTaskDialog = (show) => ({
+  type: TOGGLE_ADD_TASK_DIALOG,
+  payload: show
 });

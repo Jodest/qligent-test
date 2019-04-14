@@ -1,8 +1,7 @@
-import { openAddTaskDialog, closeAddTaskDialog } from './actions';
+import { toggleAddTaskDialog } from './actions';
 import addTaskDialog from './reducer';
 
 export {
-  openAddTaskDialog,
-  closeAddTaskDialog,
+  toggleAddTaskDialog,
   addTaskDialog
 };

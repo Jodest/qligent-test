@@ -8,15 +8,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
-const DeleteTaskDialog = ({ deleteTaskDialog, deleteTask, closeDeleteTaskDialog }) => {
+const DeleteTaskDialog = ({ deleteTaskDialog, deleteTask, toggleDeleteTaskDialog }) => {
 
   const confirmDelete = () => {
     deleteTask();
-    closeDeleteTaskDialog();
-  };
-
-  const cancel = () => {
-    closeDeleteTaskDialog();
+    toggleDeleteTaskDialog(false);
   };
 
   return (
@@ -24,7 +20,7 @@ const DeleteTaskDialog = ({ deleteTaskDialog, deleteTask, closeDeleteTaskDialog 
       <DialogTitle>Подтвердите удаление</DialogTitle>
       <DialogActions>
         <Button
-          onClick={cancel}
+          onClick={() => toggleDeleteTaskDialog(false)}
           color="primary"
         >
           Отмена

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { searchTask, toggleCheckAllTask, toggleCheckTask } from '../../store/tasks';
-import { openAddTaskDialog } from '../../store/add-task-dialog';
-import { openDeleteTaskDialog } from '../../store/delete-task-dialog';
+import { toggleAddTaskDialog } from '../../store/add-task-dialog';
+import { toggleDeleteTaskDialog } from '../../store/delete-task-dialog';
 
 const storeTaskBlock = (Wrapped) => (props) => {
   return (
@@ -20,8 +20,8 @@ const mapDispatchToProps = {
   searchTask,
   toggleCheckAllTask,
   toggleCheckTask,
-  openAddTaskDialog,
-  openDeleteTaskDialog
+  toggleAddTaskDialog,
+  toggleDeleteTaskDialog
 };
 
 export default compose(

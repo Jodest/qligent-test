@@ -6,7 +6,6 @@ import { fetchCities } from '../../store/city-list';
 import CityService from '../../services/city-service';
 
 const storeCityList = (Wrapped) => (props) => {
-  console.log('tut', props);
   if (props.loading) {
     return <p>Загрузка</p>;
   }
@@ -25,11 +24,7 @@ const mapStateToProps = ({ tasks, updateCityList }) => ({
   updateCityList
 });
 
-// const mapDispatchToProps = {
-//   fetchCities: fetchCities(new CityService())
-// };
 const mapDispatchToProps = (dispatch) => {
-  // console.log('zaf', cityService)
   return bindActionCreators({
     fetchCities: fetchCities(new CityService()),
   }, dispatch);
