@@ -1,11 +1,14 @@
 import React from 'react';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
+import { storeTaskBlock } from '../containers';
+
+// import { connect } from 'react-redux';
 
 import TaskList from '../task-list';
 import Search from '../search';
-import { openAddTaskDialog, openDeleteTaskDialog, searchTask, toggleCheckAllTask, toggleCheckTask } from '../../actions';
+// import { openAddTaskDialog, openDeleteTaskDialog, searchTask, toggleCheckAllTask, toggleCheckTask } from '../../actions';
 
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -84,20 +87,24 @@ const TaskBlock = ({
   );
 };
 
-const mapStateToProps = ({ tasks }) => ({
-  tasks,
-});
+// const mapStateToProps = ({ tasks }) => ({
+//   tasks,
+// });
 
-const mapDispatchToProps = {
-  openAddTaskDialog,
-  openDeleteTaskDialog,
-  searchTask,
-  toggleCheckAllTask,
-  toggleCheckTask
-};
+// const mapDispatchToProps = {
+//   openAddTaskDialog,
+//   openDeleteTaskDialog,
+//   searchTask,
+//   toggleCheckAllTask,
+//   toggleCheckTask
+// };
 
 TaskBlock.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TaskBlock));
+// export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TaskBlock));
+export default compose(
+  storeTaskBlock,
+  withStyles(styles)
+)(TaskBlock);

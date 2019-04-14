@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { closeAddTaskDialog, addTask } from '../../actions';
+import { closeAddTaskDialog } from '../../store/add-task-dialog';
+import { addTask } from '../../store/tasks';
 
 const storeAddTaskDialog = (Wrapped) => (props) => {
   return (

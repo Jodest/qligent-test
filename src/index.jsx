@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import muiTheme from './theme';
 
-import store from './store';
+import store from './store/store';
 
 import App from './components/app';
 import CityService from './services/city-service';

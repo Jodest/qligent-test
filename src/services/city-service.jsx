@@ -5,14 +5,14 @@ export default class CityService {
     'Нижний Новгород'
   ];
 
-  getBooks() {
+  getCities() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        // if (Math.random() > 0.75) {
-        //   reject(new Error('Something bad happened'));
-        // } else {
+        if (Math.random() > 0.75) {
+          reject(new Error('Something bad happened'));
+        } else {
           resolve(this.data);
-        // }
+        }
       }, 700);
     });
   }

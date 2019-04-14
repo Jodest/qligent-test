@@ -8,7 +8,7 @@ const addTaskDialog = (state = initState, { type }) => {
     case 'OPEN_ADD_TASK_DIALOG':
       return {
         show: true
-    };
+      };
     case 'CLOSE_ADD_TASK_DIALOG':
       return initState;
 

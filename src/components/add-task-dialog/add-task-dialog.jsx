@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 
-import { storeAddTaskDialog, withCityService } from '../hoc';
+import { storeAddTaskDialog, storeCityList } from '../containers';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -31,7 +31,12 @@ const styles = theme => ({
   }
 });
 
-const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService, classes }) => {
+const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService, fetchCities, updateCityList, classes }) => {
+  // console.log(updateCityList, fetchCities());
+  useEffect(() => {
+    console.log('chasto', fetchCities);
+    // fetchCities();
+  });
   const handleCloseAddTaskDialog = () => {
     clearState();
     closeAddTaskDialog();
@@ -85,7 +90,7 @@ const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService
           <ListItem className={classes.listItem}>
             <FormControl>
               <InputLabel htmlFor="city-select">Город</InputLabel>
-              <Select
+              {/* <Select
                 value={place}
                 inputProps={{
                   name: 'city',
@@ -97,7 +102,7 @@ const AddTaskDialog = ({ addTaskDialog, addTask, closeAddTaskDialog, cityService
                 {
                   cityService.data.map((el, ind) => <MenuItem value={el} key={ind}>{el}</MenuItem>)
                 }
-              </Select>
+              </Select> */}
             </FormControl>
           </ListItem>
         </List>
@@ -126,7 +131,7 @@ AddTaskDialog.propTypes = {
 };
 
 export default compose(
-  withCityService,
+  storeCityList,
   storeAddTaskDialog,
   withStyles(styles)
 )(AddTaskDialog);

@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { compose } from 'redux';
 
-import { deleteTask, closeDeleteTaskDialog } from '../../actions';
+import { storeDeleteTaskDialog } from '../containers';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -41,13 +40,4 @@ const DeleteTaskDialog = ({ deleteTaskDialog, deleteTask, closeDeleteTaskDialog 
   );
 };
 
-const mapStateToProps = ({ deleteTaskDialog }) => ({
-  deleteTaskDialog
-});
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  deleteTask,
-  closeDeleteTaskDialog
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteTaskDialog)
+export default compose(storeDeleteTaskDialog)(DeleteTaskDialog);
